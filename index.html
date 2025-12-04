@@ -4,33 +4,26 @@
 
   <head>
 
-    <meta charset="UTF-8" >
+    <meta charset="UTF-8" />
 
     <title>Q-Core Portal – Demo</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Ny font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  >
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <style>
 
       * {
-       box-sizing: border-box;
-       
-       margin: 0;
-       
-       padding: 0;
-       
-       font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-       
-       sans-serif;
-      
+
+        box-sizing: border-box;
+
+        margin: 0;
+
+        padding: 0;
+
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+
+          sans-serif;
+
       }
 
  
@@ -1031,15 +1024,27 @@
 
         <div class="search-bar" id="searchBar">
 
-          <div class="search-icon"></div>
+          <div class="search-icon">🔍</div>
 
-          <input id="searchInput" class="search-input" placeholder="Fråga AI Analys 1.0...">
+          <input
 
-          <button class="mic-button" id="micButton" title="Röststyrning (demo)" type="button">
-  🎙
-</button>
+            id="searchInput"
+
+            class="search-input"
+
+            placeholder="Fråga AI Analys 1.0..."
+
+          />
+
+          <button class="mic-button" id="micButton" title="Röststyrning (demo)">
+
+            🎙
+
+          </button>
 
         </div>
+
+ 
 
         <div>
 
@@ -1048,6 +1053,8 @@
           <div class="pinned-apps" id="pinnedApps"></div>
 
         </div>
+
+ 
 
         <div class="file-explorer-tile">
 
@@ -1062,6 +1069,8 @@
           </div>
 
         </div>
+
+ 
 
         <div class="recent-section">
 
@@ -1078,6 +1087,8 @@
         </div>
 
       </div>
+
+ 
 
       <!-- Höger panel -->
 
@@ -1107,9 +1118,13 @@
 
         </div>
 
+ 
+
         <div class="app-grid" id="mainApps"></div>
 
       </div>
+
+ 
 
       <!-- Branding -->
 
@@ -1131,6 +1146,8 @@
 
       </div>
 
+ 
+
       <!-- Chat panel -->
 
       <div class="chat-panel" id="chatPanel">
@@ -1151,7 +1168,7 @@
 
           </div>
 
-          <div class="chat-close" id="chatClose">× </div>
+          <button class="chat-close" id="chatClose">×</button>
 
         </div>
 
@@ -1159,9 +1176,9 @@
 
           <div class="chat-bubble ai">
 
-            God morgon! 👋<br >
+            God morgon! 👋<br />
 
-            Säg t.ex: <br>
+            Säg t.ex: <br />
 
             <em
 
@@ -1185,15 +1202,25 @@
 
         <div class="chat-footer">
 
-          <input id="chatInput" class="chat-input" placeholder="Skriv en fråga till AI Analys 1.0...">
+          <input
 
-          <button class="chat-send" id="chatSend" type="button">Skicka</button>
+            id="chatInput"
+
+            class="chat-input"
+
+            placeholder="Skriv en fråga till AI Analys 1.0..."
+
+          />
+
+          <button class="chat-send" id="chatSend">Skicka</button>
 
         </div>
 
       </div>
 
     </div>
+
+ 
 
     <script>
 
