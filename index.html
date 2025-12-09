@@ -1,1612 +1,829 @@
 <!DOCTYPE html>
-
 <html lang="sv">
-
   <head>
-
     <meta charset="UTF-8" >
-
     <title>Q-Core Portal – Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" >
-
+      <!-- Ny, clean font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
     <style>
-
       * {
-
         box-sizing: border-box;
-
         margin: 0;
-
         padding: 0;
-
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-
-          sans-serif;
-
-      }
-
- 
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+           }
 
       body {
-
-        min-height: 100vh;
-
-        background: radial-gradient(circle at top left, #1f3b63, #020617);
-
-        color: #e5e7eb;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-      }
-
- 
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, #1f3b63, #020617);
+  color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
       .desktop {
-
         width: 100%;
-
         max-width: 1150px;
-
         height: 90vh;
-
         border-radius: 24px;
-
         background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
-
         box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
-
         padding: 24px 28px;
-
         position: relative;
-
         overflow: hidden;
-
         display: grid;
-
         grid-template-columns: 320px 1fr;
-
         gap: 24px;
-
       }
-
- 
 
       /* Vänster "Startmeny" */
-
       .start-panel {
-
         background: rgba(15, 23, 42, 0.95);
-
         border-radius: 18px;
-
         padding: 18px 18px 14px;
-
         display: flex;
-
         flex-direction: column;
-
         gap: 14px;
-
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-
       }
-
- 
 
       .search-bar {
-
         display: flex;
-
         align-items: center;
-
         gap: 8px;
-
         background: rgba(15, 23, 42, 1);
-
         border-radius: 999px;
-
         padding: 8px 12px;
-
         border: 1px solid rgba(148, 163, 184, 0.4);
-
         cursor: text;
-
-        transition: border-color 0.15s ease, box-shadow 0.15s ease,
-
-          background 0.15s;
-
+        transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s;
       }
-
- 
 
       .search-bar:hover {
-
         border-color: rgba(129, 140, 248, 0.9);
-
         box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.4);
-
         background: rgba(15, 23, 42, 0.98);
-
       }
-
- 
 
       .search-icon,
-
       .mic-icon {
-
         width: 18px;
-
         height: 18px;
-
         display: inline-flex;
-
         align-items: center;
-
         justify-content: center;
-
         opacity: 0.8;
-
       }
-
- 
 
       .search-input {
-
         border: none;
-
         outline: none;
-
         background: transparent;
-
         color: #e5e7eb;
-
         font-size: 14px;
-
         flex: 1;
-
       }
-
- 
 
       .search-input::placeholder {
-
         color: #64748b;
-
       }
-
- 
 
       .mic-button {
-
         border-radius: 999px;
-
         padding: 5px;
-
         border: none;
-
         background: rgba(30, 64, 175, 0.75);
-
         display: inline-flex;
-
         align-items: center;
-
         justify-content: center;
-
         cursor: pointer;
-
         transition: background 0.15s ease, transform 0.08s ease;
-
       }
-
- 
 
       .mic-button:hover {
-
         background: rgba(37, 99, 235, 0.95);
-
         transform: translateY(-1px);
-
       }
-
- 
 
       .section-title {
-
         font-size: 12px;
-
         text-transform: uppercase;
-
         letter-spacing: 0.08em;
-
         color: #9ca3af;
-
       }
-
- 
 
       .pinned-apps {
-
         display: grid;
-
         grid-template-columns: repeat(3, minmax(0, 1fr));
-
         gap: 10px;
-
         margin-top: 6px;
-
       }
-
- 
 
       .app-tile-small {
-
         background: rgba(15, 23, 42, 0.95);
-
         border-radius: 12px;
-
         padding: 10px 8px;
-
         display: flex;
-
         flex-direction: column;
-
         align-items: flex-start;
-
         justify-content: flex-start;
-
         cursor: pointer;
-
         border: 1px solid transparent;
-
-        transition: transform 0.12s ease, box-shadow 0.12s ease,
-
-          border-color 0.12s ease, background 0.12s;
-
+        transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease, background 0.12s;
       }
-
- 
 
       .app-tile-small:hover {
-
         transform: translateY(-2px);
-
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
-
         border-color: rgba(129, 140, 248, 0.7);
-
         background: rgba(15, 23, 42, 1);
-
       }
-
- 
 
       .app-icon {
-
         width: 30px;
-
         height: 30px;
-
         border-radius: 9px;
-
         display: flex;
-
         align-items: center;
-
         justify-content: center;
-
         font-weight: 700;
-
         font-size: 15px;
-
         color: #f9fafb;
-
         margin-bottom: 4px;
-
       }
-
- 
 
       .app-name {
-
         font-size: 12px;
-
         color: #e5e7eb;
-
       }
-
- 
 
       .file-explorer-tile {
-
         margin-top: 8px;
-
       }
-
- 
 
       .recent-section {
-
         margin-top: 10px;
-
         display: flex;
-
         flex-direction: column;
-
         gap: 8px;
-
       }
-
- 
 
       .recent-item {
-
         display: inline-flex;
-
         align-items: center;
-
         gap: 8px;
-
         padding: 7px 10px;
-
         border-radius: 999px;
-
         background: rgba(15, 23, 42, 0.9);
-
         font-size: 12px;
-
         color: #e5e7eb;
-
         cursor: pointer;
-
         border: 1px solid transparent;
-
         transition: background 0.12s ease, border-color 0.12s ease;
-
         width: fit-content;
-
       }
-
- 
 
       .recent-item:hover {
-
         background: rgba(15, 23, 42, 1);
-
         border-color: rgba(148, 163, 184, 0.6);
-
       }
-
- 
 
       /* Höger sida */
-
       .right-pane {
-
         display: flex;
-
         flex-direction: column;
-
         gap: 18px;
-
       }
-
- 
 
       .status-widget {
-
         background: linear-gradient(
-
           120deg,
-
           rgba(30, 64, 175, 0.95),
-
           rgba(8, 47, 73, 0.98)
-
         );
-
         border-radius: 18px;
-
         padding: 14px 18px;
-
         display: flex;
-
         justify-content: space-between;
-
         align-items: center;
-
         box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
-
       }
-
- 
 
       .status-col {
-
         display: flex;
-
         flex-direction: column;
-
         gap: 2px;
-
       }
-
- 
 
       .status-main {
-
         font-size: 22px;
-
         font-weight: 700;
-
       }
-
- 
 
       .status-label {
-
         font-size: 11px;
-
         letter-spacing: 0.08em;
-
         text-transform: uppercase;
-
         opacity: 0.8;
-
       }
-
- 
 
       .status-sub {
-
         font-size: 12px;
-
         opacity: 0.9;
-
       }
-
- 
 
       .app-grid {
-
         display: grid;
-
         grid-template-columns: repeat(3, minmax(0, 1fr));
-
         gap: 14px;
-
       }
-
- 
 
       .app-tile {
-
         background: rgba(15, 23, 42, 0.95);
-
         border-radius: 16px;
-
         padding: 16px 14px;
-
         display: flex;
-
         flex-direction: column;
-
         gap: 8px;
-
         cursor: pointer;
-
         border: 1px solid transparent;
-
-        transition: transform 0.12s ease, box-shadow 0.12s ease,
-
-          border-color 0.12s ease, background 0.12s;
-
+        transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease, background 0.12s;
       }
-
- 
 
       .app-tile:hover {
-
         transform: translateY(-3px);
-
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
-
         border-color: rgba(129, 140, 248, 0.85);
-
         background: rgba(15, 23, 42, 1);
-
       }
-
- 
 
       .app-title {
-
         font-size: 14px;
-
         font-weight: 600;
-
       }
-
- 
 
       .app-subtitle {
-
         font-size: 11px;
-
         color: #9ca3af;
-
       }
-
- 
 
       .app-icon-large {
-
         width: 38px;
-
         height: 38px;
-
         border-radius: 12px;
-
         display: flex;
-
         align-items: center;
-
         justify-content: center;
-
         font-weight: 700;
-
         font-size: 18px;
-
         color: #f9fafb;
-
       }
-
- 
 
       /* Branding nere till vänster */
-
       .branding {
-
         position: absolute;
-
         left: 26px;
-
         bottom: 16px;
-
         display: flex;
-
         align-items: center;
-
         gap: 10px;
-
         opacity: 0.9;
-
       }
-
- 
 
       .branding-logo {
-
         width: 32px;
-
         height: 32px;
-
         border-radius: 9px;
-
         border: 1px solid rgba(148, 163, 184, 0.6);
-
         display: flex;
-
         align-items: center;
-
         justify-content: center;
-
         font-size: 16px;
-
         font-weight: 800;
-
         background: radial-gradient(circle at top left, #f97316, #b91c1c);
-
       }
-
- 
 
       .branding-text-main {
-
         font-size: 13px;
-
         font-weight: 600;
-
         letter-spacing: 0.06em;
-
         text-transform: uppercase;
-
       }
-
- 
 
       .branding-text-sub {
-
         font-size: 11px;
-
         color: #9ca3af;
-
       }
-
- 
 
       /* Chat-panel för AI Analys 1.0 */
-
       .chat-panel {
-
         position: absolute;
-
         right: 32px;
-
         bottom: 72px;
-
         width: 360px;
-
         max-height: 460px;
-
         background: radial-gradient(
-
           circle at top left,
-
           rgba(30, 64, 175, 0.97),
-
           rgba(15, 23, 42, 0.98)
-
         );
-
         border-radius: 20px;
-
         box-shadow: 0 24px 70px rgba(0, 0, 0, 0.9);
-
         display: flex;
-
         flex-direction: column;
-
         overflow: hidden;
-
         border: 1px solid rgba(191, 219, 254, 0.4);
-
         transform-origin: bottom right;
-
         transform: scale(0.9);
-
         opacity: 0;
-
         pointer-events: none;
-
         transition: opacity 0.18s ease, transform 0.18s ease;
-
         backdrop-filter: blur(16px);
-
       }
-
- 
 
       .chat-panel.open {
-
         opacity: 1;
-
         pointer-events: auto;
-
         transform: scale(1);
-
       }
-
- 
 
       .chat-header {
-
         padding: 10px 14px 8px;
-
         display: flex;
-
         align-items: center;
-
         justify-content: space-between;
-
         border-bottom: 1px solid rgba(148, 163, 184, 0.4);
-
       }
-
- 
 
       .chat-header-left {
-
         display: flex;
-
         align-items: center;
-
         gap: 10px;
-
       }
-
- 
 
       .chat-avatar {
-
         width: 26px;
-
         height: 26px;
-
         border-radius: 999px;
-
         background: radial-gradient(circle at top left, #22c55e, #16a34a);
-
         display: flex;
-
         align-items: center;
-
         justify-content: center;
-
         font-size: 15px;
-
         font-weight: 800;
-
       }
-
- 
 
       .chat-title {
-
         font-size: 13px;
-
         font-weight: 600;
-
       }
-
- 
 
       .chat-subtitle {
-
         font-size: 11px;
-
         color: #d1d5db;
-
       }
-
- 
 
       .chat-close {
-
         border: none;
-
         background: transparent;
-
         color: #e5e7eb;
-
         cursor: pointer;
-
         font-size: 16px;
-
         opacity: 0.8;
-
         padding: 4px;
-
       }
-
- 
 
       .chat-close:hover {
-
         opacity: 1;
-
       }
-
- 
 
       .chat-messages {
-
         padding: 10px 14px 6px;
-
         overflow-y: auto;
-
         flex: 1;
-
         display: flex;
-
         flex-direction: column;
-
         gap: 8px;
-
       }
-
- 
 
       .chat-bubble {
-
         max-width: 90%;
-
         padding: 8px 11px;
-
         border-radius: 14px;
-
         font-size: 12px;
-
         line-height: 1.4;
-
       }
-
- 
 
       .chat-bubble.ai {
-
         background: rgba(15, 23, 42, 0.92);
-
         align-self: flex-start;
-
         border-bottom-left-radius: 3px;
-
       }
-
- 
 
       .chat-bubble.user {
-
         background: rgba(37, 99, 235, 0.95);
-
         align-self: flex-end;
-
         border-bottom-right-radius: 3px;
-
       }
-
- 
 
       .chat-footer {
-
         padding: 8px 10px 9px;
-
         border-top: 1px solid rgba(148, 163, 184, 0.4);
-
         display: flex;
-
         align-items: center;
-
         gap: 6px;
-
         background: rgba(15, 23, 42, 0.85);
-
       }
-
- 
 
       .chat-input {
-
         flex: 1;
-
         border-radius: 999px;
-
         border: 1px solid rgba(148, 163, 184, 0.7);
-
         padding: 6px 10px;
-
         font-size: 12px;
-
         background: rgba(15, 23, 42, 0.95);
-
         color: #e5e7eb;
-
         outline: none;
-
       }
-
- 
 
       .chat-input::placeholder {
-
         color: #64748b;
-
       }
-
- 
 
       .chat-send {
-
         border-radius: 999px;
-
         border: none;
-
         padding: 6px 9px;
-
         font-size: 12px;
-
         background: rgba(37, 99, 235, 0.96);
-
         color: #f9fafb;
-
         cursor: pointer;
-
         font-weight: 500;
-
       }
-
- 
 
       .chat-send:hover {
-
         background: rgba(59, 130, 246, 1);
-
       }
-
- 
 
       .chip {
-
         display: inline-flex;
-
         align-items: center;
-
         gap: 8px;
-
         padding: 3px 8px;
-
         border-radius: 999px;
-
         background: rgba(15, 23, 42, 0.8);
-
         font-size: 10px;
-
         margin-top: 4px;
-
         color: #cbd5f5;
-
       }
-
- 
 
       .chip-dot {
-
         width: 6px;
-
         height: 6px;
-
         border-radius: 999px;
-
         background: #22c55e;
-
       }
 
- 
-
       @media (max-width: 960px) {
-
         .desktop {
-
           grid-template-columns: 1fr;
-
           height: 100vh;
-
           max-width: 100%;
-
           border-radius: 0;
-
         }
 
         .branding {
-
           display: none;
-
         }
 
         .chat-panel {
-
           right: 16px;
-
           left: 16px;
-
           width: auto;
-
         }
-
       }
-
     </style>
-
   </head>
 
   <body>
-
     <div class="desktop">
-
       <!-- Vänster panel -->
-
       <div class="start-panel">
-
         <div class="search-bar" id="searchBar">
-
           <div class="search-icon">🔍</div>
-
           <input
-
-            id="searchInput"
-
-            class="search-input"
-
             type="text"
-
+            id="searchInput"
+            class="search-input"
             placeholder="Fråga AI Analys 1.0..."
-
           >
-
-          <button class="mic-button" id="micButton" title="Röststyrning (demo)" type="button">
-
+          <button type="button" class="mic-button" id="micButton" title="Röststyrning (demo)">
             🎙
-
           </button>
-
         </div>
+
         <div>
-
           <div class="section-title">Fästa</div>
-
           <div class="pinned-apps" id="pinnedApps"></div>
-
         </div>
+
         <div class="file-explorer-tile">
-
           <div class="section-title">System</div>
-
           <div class="recent-item">
-
             <span>📁</span>
-
             <span>Filexplorer</span>
-
           </div>
-
         </div>
+
         <div class="recent-section">
-
           <div class="section-title">Senaste</div>
-
           <div class="recent-item">
-
             <span>🔔</span>
-
             <span>Alarmcenter</span>
-
           </div>
-
         </div>
-
       </div>
+
       <!-- Höger panel -->
-
       <div class="right-pane">
-
         <div class="status-widget">
-
           <div class="status-col">
-
             <div class="status-main">−7,3%</div>
-
             <div class="status-label">Energi</div>
-
             <div class="status-sub">Senaste 30 dagarna</div>
-
           </div>
-
           <div class="status-col" style="text-align: right">
-
             <div class="status-main">23</div>
-
             <div class="status-label">Aktiva larm</div>
-
             <div class="status-sub">91 % komfortindex</div>
-
           </div>
-
         </div>
 
         <div class="app-grid" id="mainApps"></div>
-
       </div>
+
       <!-- Branding -->
       <div class="branding" id="branding">
-
         <div class="branding-logo" id="brandingLogo">B</div>
-
         <div>
-
           <div class="branding-text-main" id="brandingName">
-
             Botkyrka Kommun
-
           </div>
-
           <div class="branding-text-sub">Q-Core Portal</div>
-
         </div>
-
       </div>
+
       <!-- Chat panel -->
-
       <div class="chat-panel" id="chatPanel">
-
         <div class="chat-header">
-
           <div class="chat-header-left">
-
             <div class="chat-avatar">Q</div>
-
             <div>
-
               <div class="chat-title">AI Analys 1.0</div>
-
-              <div class="chat-subtitle">Kopplad till Q-Core, EBO &amp; SPoG</div>
-
+              <div class="chat-subtitle">Kopplad till Q-Core, EBO & SPoG</div>
             </div>
-
           </div>
-
-          <button class="chat-close" id="chatClose" type="button">×</button>
-
+          <button type="button" class="chat-close" id="chatClose">×</button>
         </div>
 
         <div class="chat-messages" id="chatMessages">
-
           <div class="chat-bubble ai">
-
             God morgon! 👋<br >
-
-            Säg t.ex: <br >
-
+            Säg t.ex: <br>
             <em
-
               >“Tjenare Bosse, har det hänt nåt du tycker jag ska starta dagen
-
               med?”</em
-
             >
-
             <div class="chip">
-
               <div class="chip-dot"></div>
-
               Demo-läge – svaren är fejkade här
-
             </div>
-
           </div>
-
         </div>
 
         <div class="chat-footer">
-
           <input
-
-            id="chatInput"
-
-            class="chat-input"
-
             type="text"
-
+            id="chatInput"
+            class="chat-input"
             placeholder="Skriv en fråga till AI Analys 1.0..."
-
           >
-
-          <button class="chat-send" id="chatSend" type="button">Skicka</button>
-
+          <button type="button" class="chat-send" id="chatSend">Skicka</button>
         </div>
-
       </div>
-
     </div>
 
     <script>
-
       // Enkel config så du kan byta kund & appar
-
       const portalConfig = {
-
         tenantName: "Botkyrka Kommun",
-
         tenantInitials: "B",
-
         apps: [
-
           {
-
             id: "ebo",
-
             name: "EBO",
-
             shortLabel: "E",
-
             description: "SCADA & drift",
-
             color: "#16a34a",
-
             url: "https://ebo.example.com",
-
             pinned: true,
-
           },
-
           {
-
             id: "qcore",
-
             name: "Q-Core",
-
             shortLabel: "Q",
-
             description: "Datahub & semantik",
-
             color: "#0ea5e9",
-
             url: "https://qcore.example.com",
-
             pinned: true,
-
           },
-
           {
-
             id: "spog",
-
             name: "SPoG",
-
             shortLabel: "S",
-
             description: "Single Pane of Glass",
-
             color: "#4f46e5",
-
             url: "https://spog.example.com",
-
             pinned: true,
-
           },
-
           {
-
             id: "cpog",
-
             name: "CPoG",
-
             shortLabel: "C",
-
             description: "Comfort-vy (demo)",
-
             color: "#1d4ed8",
-
             url: "https://cpog.example.com",
-
             pinned: true,
-
             smallOnly: true,
-
           },
-
           {
-
             id: "clockworks",
-
             name: "Clockworks",
-
             shortLabel: "Cw",
-
             description: "Felsökning & analytics",
-
             color: "#0f766e",
-
             url: "https://clockworks.example.com",
-
           },
-
           {
-
             id: "myrspoven",
-
             name: "Myrspoven",
-
             shortLabel: "M",
-
             description: "AI-optimering",
-
             color: "#22c55e",
-
             url: "https://myrspoven.example.com",
-
           },
-
         ],
-
       };
 
- 
-
       // Branding
-
       document.getElementById("brandingName").textContent =
-
         portalConfig.tenantName;
-
       document.getElementById("brandingLogo").textContent =
-
         portalConfig.tenantInitials || portalConfig.tenantName[0] || "?";
 
- 
-
       // Render appar
-
       const pinnedAppsEl = document.getElementById("pinnedApps");
-
       const mainAppsEl = document.getElementById("mainApps");
 
- 
-
       portalConfig.apps.forEach((app) => {
-
-        const iconStyle = `background:${app.color};`;
-
- 
+        const iconStyle = `background: ${app.color}`;
 
         if (app.pinned) {
-
           const tile = document.createElement("div");
-
           tile.className = "app-tile-small";
-
           tile.onclick = () => openApp(app);
 
- 
-
           const icon = document.createElement("div");
-
           icon.className = "app-icon";
-
           icon.style = iconStyle;
-
           icon.textContent = app.shortLabel;
-
- 
 
           const name = document.createElement("div");
-
           name.className = "app-name";
-
           name.textContent = app.name;
 
- 
-
           tile.appendChild(icon);
-
           tile.appendChild(name);
-
           pinnedAppsEl.appendChild(tile);
-
         }
-
- 
 
         if (!app.smallOnly) {
-
           const tile = document.createElement("div");
-
           tile.className = "app-tile";
-
           tile.onclick = () => openApp(app);
 
- 
-
           const icon = document.createElement("div");
-
           icon.className = "app-icon-large";
-
           icon.style = iconStyle;
-
           icon.textContent = app.shortLabel;
 
- 
-
           const title = document.createElement("div");
-
           title.className = "app-title";
-
           title.textContent = app.name;
 
- 
-
           const sub = document.createElement("div");
-
           sub.className = "app-subtitle";
-
           sub.textContent = app.description;
 
- 
-
           tile.appendChild(icon);
-
           tile.appendChild(title);
-
           tile.appendChild(sub);
-
           mainAppsEl.appendChild(tile);
-
         }
-
       });
-
- 
 
       function openApp(app) {
-
         // Här kan du senare koppla SSO, nya fönster osv.
-
         alert(`(Demo) Öppnar ${app.name} – URL: ${app.url}`);
-
       }
-
- 
 
       // Chat & AI Analys 1.0 (demo-logik)
-
       const chatPanel = document.getElementById("chatPanel");
-
       const searchBar = document.getElementById("searchBar");
-
       const searchInput = document.getElementById("searchInput");
-
       const chatClose = document.getElementById("chatClose");
-
       const chatMessages = document.getElementById("chatMessages");
-
       const chatInput = document.getElementById("chatInput");
-
       const chatSend = document.getElementById("chatSend");
-
       const micButton = document.getElementById("micButton");
 
- 
-
       function openChat() {
-
         chatPanel.classList.add("open");
-
         setTimeout(() => chatInput.focus(), 120);
-
       }
-
- 
 
       function closeChat() {
-
         chatPanel.classList.remove("open");
-
       }
-
- 
 
       searchBar.addEventListener("click", (e) => {
-
         // Undvik dubbeltrigger på mic-knappen
-
         if (e.target === micButton) return;
-
         openChat();
-
       });
-
- 
 
       searchInput.addEventListener("focus", openChat);
-
       chatClose.addEventListener("click", closeChat);
 
- 
-
       function addMessage(text, from = "ai") {
-
         const bubble = document.createElement("div");
-
         bubble.className = "chat-bubble " + (from === "user" ? "user" : "ai");
-
         bubble.innerHTML = text;
-
         chatMessages.appendChild(bubble);
-
         chatMessages.scrollTop = chatMessages.scrollHeight;
-
       }
-
- 
 
       function handleUserMessage(msg) {
-
         if (!msg.trim()) return;
-
         addMessage(msg, "user");
-
         chatInput.value = "";
 
- 
-
         // Enkel demo-svar – här skulle du anropa riktig backend/GPT
-
         setTimeout(() => {
-
           // Specialfall för din "Tjenare Bosse"-replik
-
           if (msg.toLowerCase().includes("tjenare bosse")) {
-
             addMessage(
-
               "Godmorgon! Ja, <b>LB14 i Botkyrkagymnasiet strular</b> – högtemperaturlarmet har löst flera gånger senaste timmarna.<br/><br/>" +
-
-                "Vill du att jag analyserar vad det kan bero på, eller ska jag bara visa läget i SPoG?"
-
+              "Vill du att jag analyserar vad det kan bero på, eller ska jag bara visa läget i SPoG?"
             );
-
           } else {
-
             addMessage(
-
               "Det här är en demo av AI Analys 1.0 i portalen. " +
-
-                "I skarpt läge skulle jag nu fråga Q-Core/EBO efter rätt data och komma tillbaka med ett riktigt svar."
-
+              "I skarpt läge skulle jag nu fråga Q-Core/EBO efter rätt data och komma tillbaka med ett riktigt svar."
             );
-
           }
-
         }, 500);
-
       }
 
- 
-
       chatSend.addEventListener("click", () =>
-
         handleUserMessage(chatInput.value)
-
       );
 
- 
-
       chatInput.addEventListener("keydown", (e) => {
-
         if (e.key === "Enter") {
-
           e.preventDefault();
-
           handleUserMessage(chatInput.value);
-
         }
-
       });
-
- 
 
       // Mic-knappen – bara demo-popup nu
-
       micButton.addEventListener("click", (e) => {
-
         e.stopPropagation();
-
         openChat();
-
         addMessage(
-
           "🎙 <b>Röstdemo</b>: här skulle vi lyssna på dig via Web Speech API eller liknande och omvandla tal till text."
-
         );
-
       });
-
     </script>
-
   </body>
-
 </html>
