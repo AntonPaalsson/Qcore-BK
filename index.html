@@ -964,18 +964,21 @@
 
  
 
-.chip-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: #22c55e;
-}
+      .chip-dot {
 
-.status-col-right {
-  text-align: right;
-}
+        width: 6px;
 
-@media (max-width: 960px) {
+        height: 6px;
+
+        border-radius: 999px;
+
+        background: #22c55e;
+
+      }
+
+ 
+
+      @media (max-width: 960px) {
 
         .desktop {
 
@@ -1025,17 +1028,17 @@
 
           <input
 
-            type="text"
-
             id="searchInput"
 
             class="search-input"
+
+            type="text"
 
             placeholder="Fråga AI Analys 1.0..."
 
           >
 
-          <button type="button" class="mic-button" id="micButton" title="Röststyrning (demo)">
+          <button class="mic-button" id="micButton" title="Röststyrning (demo)" type="button">
 
             🎙
 
@@ -1078,6 +1081,7 @@
 
       </div>
       <!-- Höger panel -->
+
       <div class="right-pane">
 
         <div class="status-widget">
@@ -1092,7 +1096,7 @@
 
           </div>
 
-          <div class="status-col status-col-right">
+          <div class="status-col" style="text-align: right">
 
             <div class="status-main">23</div>
 
@@ -1104,9 +1108,10 @@
 
         </div>
 
+        <div class="app-grid" id="mainApps"></div>
+
       </div>
       <!-- Branding -->
-
       <div class="branding" id="branding">
 
         <div class="branding-logo" id="brandingLogo">B</div>
@@ -1144,7 +1149,7 @@
 
           </div>
 
-          <button type="button" class="chat-close" id="chatClose">×</button>
+          <button class="chat-close" id="chatClose" type="button">×</button>
 
         </div>
 
@@ -1180,23 +1185,24 @@
 
           <input
 
-            type="text"
-
             id="chatInput"
 
             class="chat-input"
+
+            type="text"
 
             placeholder="Skriv en fråga till AI Analys 1.0..."
 
           >
 
-          <button type="button" class="chat-send" id="chatSend">Skicka</button>
+          <button class="chat-send" id="chatSend" type="button">Skicka</button>
 
         </div>
 
       </div>
 
     </div>
+
     <script>
 
       // Enkel config så du kan byta kund & appar
