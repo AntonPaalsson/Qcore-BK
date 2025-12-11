@@ -161,15 +161,47 @@
         color: #f9fafb;
         margin-bottom: 4px;
       }
-      .app-icon-image {
-                width: 100%;
-                height: 100%;
+      /* Standard för alla bilder */
+.app-icon-image {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  padding: 4px;
+  border-radius: 10px;
+}
 
-                object-fit: cover;
+/* App-specifika ikoner */
+.icon-ebo {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  padding: 0 !important;
+  border-radius: 12px; /* så att den följer ikonens rundning */
+}
+.icon-qcore {
+  width: 70%;
+  height: 70%;
+}
 
-                border-radius: 12px; /* samma som ikonen */
-              }
+.icon-qlarm {
+  width: 65%;
+  height: 65%;
+}
 
+.icon-clockworks {
+  width: 75%;
+  height: 75%;
+}
+
+.icon-myrspoven {
+  width: 70%;
+  height: 70%;
+}
+
+.icon-rutin {
+  width: 65%;
+  height: 65%;
+}
       .app-name {
         font-size: 12px;
         color: #e5e7eb;
@@ -638,43 +670,58 @@
 
   // Hårdkodade appar till höger panel (inget config-objekt längre)
   const mainApps = [
-    {
-      name: "EBO",
-      short: "E",
-      icon: "favicon.ico",
-      desc: "SCADA & drift",
-      color: "#16a34a",
-      url: "https://ebo.fambo.com/"
-    },
-    {
-      name: "Q-Core",
-      short: "Q",
-      desc: "Datahub & semantik",
-      color: "#0ea5e9",
-      url: "https://eu-dashboard.novant.io/orgs/56452/projs"
-    },
-    {
-      name: "SPoG",
-      short: "S",
-      desc: "Single Pane of Glass",
-      color: "#4f46e5",
-      url: "https://test.qlarm.com/#/dashboard"
-    },
-    {
-      name: "Clockworks",
-      short: "Cw",
-      desc: "Felsökning & analytics",
-      color: "#0f766e",
-      url: "https://clockworksanalytics.com/"
-    },
-    {
-      name: "Myrspoven",
-      short: "M",
-      desc: "AI-optimering",
-      color: "#22c55e",
-      url: "https://myrspoven.com/myportal-2/"
-    }
-  ];
+  {
+    id: "ebo",
+    name: "EBO",
+    short: "E",
+    icon: "favicon.ico",
+    desc: "SCADA & drift",
+    color: "#16a34a",
+    url: "https://ebo.fambo.com/"
+  },
+  {
+    id: "qcore",
+    name: "Q-Core",
+    short: "Q",
+    desc: "Datahub & semantik",
+    color: "#0ea5e9",
+    url: "https://eu-dashboard.novant.io/orgs/56452/projs"
+  },
+  {
+    id: "qlarm",
+    name: "QLarm",
+    short: "S",
+    icon: "qlarm-logo-small.png",
+    desc: "Single Pane of Glass",
+    color: "#FFFFFF",
+    url: "https://test.qlarm.com/#/dashboard"
+  },
+  {
+    id: "clockworks",
+    name: "Clockworks",
+    short: "Cw",
+    desc: "Felsökning & analytics",
+    color: "#0f766e",
+    url: "https://clockworksanalytics.com/"
+  },
+  {
+    id: "myrspoven",
+    name: "Myrspoven",
+    short: "M",
+    desc: "AI-optimering",
+    color: "#FF8C00",
+    url: "https://myrspoven.com/myportal-2/"
+  },
+  {
+    id: "rutin",
+    name: "Rutin",
+    short: "R",
+    icon: "Rutin_logo1_blue_rgb.png",
+    desc: "Ärendehantering",
+    color: "#FFFFFF",
+    url: "https://init.rutin.net/"
+  }
+];
 
   const mainAppsEl = document.getElementById("mainApps");
 
@@ -687,14 +734,15 @@
     const icon = document.createElement("div");
     icon.className = "app-icon-large";
     icon.style.background = app.color;
+    
     if (app.icon) {
-      const img = document.createElement("img");
-      img.src = app.icon;
-      img.className = "app-icon-image";
-      icon.appendChild(img);
-    } else {
-      icon.textContent = app.short;
-          }
+  const img = document.createElement("img");
+  img.src = app.icon;
+  img.className = `app-icon-image icon-${app.id}`;
+  icon.appendChild(img);
+} else {
+  icon.textContent = app.short;
+}
 
     const title = document.createElement("div");
     title.className = "app-title";
