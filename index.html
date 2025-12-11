@@ -161,6 +161,14 @@
         color: #f9fafb;
         margin-bottom: 4px;
       }
+      .app-icon-image {
+                width: 100%;
+                height: 100%;
+
+                object-fit: cover;
+
+                border-radius: 12px; /* samma som ikonen */
+              }
 
       .app-name {
         font-size: 12px;
@@ -624,206 +632,155 @@
     </div>
 
     <script>
-      // Enkel config så du kan byta kund & appar
-      const portalConfig = {
-        tenantName: "Botkyrka Kommun",
-        tenantInitials: "B",
-        apps: [
-          {
-            id: "ebo",
-            name: "EBO",
-            shortLabel: "E",
-            description: "SCADA & drift",
-            color: "#16a34a",
-            url: "https://ebo.example.com",
-            pinned: true,
-          },
-          {
-            id: "qcore",
-            name: "Q-Core",
-            shortLabel: "Q",
-            description: "Datahub & semantik",
-            color: "#0ea5e9",
-            url: "https://qcore.example.com",
-            pinned: true,
-          },
-          {
-            id: "spog",
-            name: "SPoG",
-            shortLabel: "S",
-            description: "Single Pane of Glass",
-            color: "#4f46e5",
-            url: "https://spog.example.com",
-            pinned: true,
-          },
-          {
-            id: "cpog",
-            name: "CPoG",
-            shortLabel: "C",
-            description: "Comfort-vy (demo)",
-            color: "#1d4ed8",
-            url: "https://cpog.example.com",
-            pinned: true,
-            smallOnly: true,
-          },
-          {
-            id: "clockworks",
-            name: "Clockworks",
-            shortLabel: "Cw",
-            description: "Felsökning & analytics",
-            color: "#0f766e",
-            url: "https://clockworks.example.com",
-          },
-          {
-            id: "myrspoven",
-            name: "Myrspoven",
-            shortLabel: "M",
-            description: "AI-optimering",
-            color: "#22c55e",
-            url: "https://myrspoven.example.com",
-          },
-        ],
-      };
+  // Branding – hårdkodat
+  document.getElementById("brandingName").textContent = "Botkyrka Kommun";
+  document.getElementById("brandingLogo").textContent = "B";
 
-      // Branding
-      document.getElementById("brandingName").textContent =
-        portalConfig.tenantName;
-      document.getElementById("brandingLogo").textContent =
-        portalConfig.tenantInitials || portalConfig.tenantName[0] || "?";
+  // Hårdkodade appar till höger panel (inget config-objekt längre)
+  const mainApps = [
+    {
+      name: "EBO",
+      short: "E",
+      icon: "favicon.ico",
+      desc: "SCADA & drift",
+      color: "#16a34a",
+      url: "https://ebo.fambo.com/"
+    },
+    {
+      name: "Q-Core",
+      short: "Q",
+      desc: "Datahub & semantik",
+      color: "#0ea5e9",
+      url: "https://eu-dashboard.novant.io/orgs/56452/projs"
+    },
+    {
+      name: "SPoG",
+      short: "S",
+      desc: "Single Pane of Glass",
+      color: "#4f46e5",
+      url: "https://test.qlarm.com/#/dashboard"
+    },
+    {
+      name: "Clockworks",
+      short: "Cw",
+      desc: "Felsökning & analytics",
+      color: "#0f766e",
+      url: "https://clockworksanalytics.com/"
+    },
+    {
+      name: "Myrspoven",
+      short: "M",
+      desc: "AI-optimering",
+      color: "#22c55e",
+      url: "https://myrspoven.com/myportal-2/"
+    }
+  ];
 
-      // Render appar
-      const pinnedAppsEl = document.getElementById("pinnedApps");
-      const mainAppsEl = document.getElementById("mainApps");
+  const mainAppsEl = document.getElementById("mainApps");
 
-      portalConfig.apps.forEach((app) => {
-        const iconStyle = `background: ${app.color}`;
+  // Rendera hårdkodade appar till höger panel
+  mainApps.forEach(app => {
+    const tile = document.createElement("div");
+    tile.className = "app-tile";
+    tile.onclick = () => window.open(app.url, "_blank");
 
-        if (app.pinned) {
-          const tile = document.createElement("div");
-          tile.className = "app-tile-small";
-          tile.onclick = () => openApp(app);
-
-          const icon = document.createElement("div");
-          icon.className = "app-icon";
-          icon.style = iconStyle;
-          icon.textContent = app.shortLabel;
-
-          const name = document.createElement("div");
-          name.className = "app-name";
-          name.textContent = app.name;
-
-          tile.appendChild(icon);
-          tile.appendChild(name);
-          pinnedAppsEl.appendChild(tile);
-        }
-
-        if (!app.smallOnly) {
-          const tile = document.createElement("div");
-          tile.className = "app-tile";
-          tile.onclick = () => openApp(app);
-
-          const icon = document.createElement("div");
-          icon.className = "app-icon-large";
-          icon.style = iconStyle;
-          icon.textContent = app.shortLabel;
-
-          const title = document.createElement("div");
-          title.className = "app-title";
-          title.textContent = app.name;
-
-          const sub = document.createElement("div");
-          sub.className = "app-subtitle";
-          sub.textContent = app.description;
-
-          tile.appendChild(icon);
-          tile.appendChild(title);
-          tile.appendChild(sub);
-          mainAppsEl.appendChild(tile);
-        }
-      });
-
-      function openApp(app) {
-        // Här kan du senare koppla SSO, nya fönster osv.
-        alert(`(Demo) Öppnar ${app.name} – URL: ${app.url}`);
-      }
-
-      // Chat & AI Analys 1.0 (demo-logik)
-      const chatPanel = document.getElementById("chatPanel");
-      const searchBar = document.getElementById("searchBar");
-      const searchInput = document.getElementById("searchInput");
-      const chatClose = document.getElementById("chatClose");
-      const chatMessages = document.getElementById("chatMessages");
-      const chatInput = document.getElementById("chatInput");
-      const chatSend = document.getElementById("chatSend");
-      const micButton = document.getElementById("micButton");
-
-      function openChat() {
-        chatPanel.classList.add("open");
-        setTimeout(() => chatInput.focus(), 120);
-      }
-
-      function closeChat() {
-        chatPanel.classList.remove("open");
-      }
-
-      searchBar.addEventListener("click", (e) => {
-        // Undvik dubbeltrigger på mic-knappen
-        if (e.target === micButton) return;
-        openChat();
-      });
-
-      searchInput.addEventListener("focus", openChat);
-      chatClose.addEventListener("click", closeChat);
-
-      function addMessage(text, from = "ai") {
-        const bubble = document.createElement("div");
-        bubble.className = "chat-bubble " + (from === "user" ? "user" : "ai");
-        bubble.innerHTML = text;
-        chatMessages.appendChild(bubble);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }
-
-      function handleUserMessage(msg) {
-        if (!msg.trim()) return;
-        addMessage(msg, "user");
-        chatInput.value = "";
-
-        // Enkel demo-svar – här skulle du anropa riktig backend/GPT
-        setTimeout(() => {
-          // Specialfall för din "Tjenare Bosse"-replik
-          if (msg.toLowerCase().includes("tjenare bosse")) {
-            addMessage(
-              "Godmorgon! Ja, <b>LB14 i Botkyrkagymnasiet strular</b> – högtemperaturlarmet har löst flera gånger senaste timmarna.<br/><br/>" +
-              "Vill du att jag analyserar vad det kan bero på, eller ska jag bara visa läget i SPoG?"
-            );
-          } else {
-            addMessage(
-              "Det här är en demo av AI Analys 1.0 i portalen. " +
-              "I skarpt läge skulle jag nu fråga Q-Core/EBO efter rätt data och komma tillbaka med ett riktigt svar."
-            );
+    const icon = document.createElement("div");
+    icon.className = "app-icon-large";
+    icon.style.background = app.color;
+    if (app.icon) {
+      const img = document.createElement("img");
+      img.src = app.icon;
+      img.className = "app-icon-image";
+      icon.appendChild(img);
+    } else {
+      icon.textContent = app.short;
           }
-        }, 500);
-      }
 
-      chatSend.addEventListener("click", () =>
-        handleUserMessage(chatInput.value)
-      );
+    const title = document.createElement("div");
+    title.className = "app-title";
+    title.textContent = app.name;
 
-      chatInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          handleUserMessage(chatInput.value);
-        }
-      });
+    const sub = document.createElement("div");
+    sub.className = "app-subtitle";
+    sub.textContent = app.desc;
 
-      // Mic-knappen – bara demo-popup nu
-      micButton.addEventListener("click", (e) => {
-        e.stopPropagation();
-        openChat();
+    tile.appendChild(icon);
+    tile.appendChild(title);
+    tile.appendChild(sub);
+    mainAppsEl.appendChild(tile);
+  });
+
+  // Ta bort "Fästa"
+  document.querySelector(".section-title").remove();
+  document.getElementById("pinnedApps").remove();
+
+  // --- AI Chat logiken (orörd, fungerar som tidigare) ---
+  const chatPanel = document.getElementById("chatPanel");
+  const searchBar = document.getElementById("searchBar");
+  const searchInput = document.getElementById("searchInput");
+  const chatClose = document.getElementById("chatClose");
+  const chatMessages = document.getElementById("chatMessages");
+  const chatInput = document.getElementById("chatInput");
+  const chatSend = document.getElementById("chatSend");
+  const micButton = document.getElementById("micButton");
+
+  function openChat() {
+    chatPanel.classList.add("open");
+    setTimeout(() => chatInput.focus(), 120);
+  }
+
+  function closeChat() {
+    chatPanel.classList.remove("open");
+  }
+
+  searchBar.addEventListener("click", e => {
+    if (e.target === micButton) return;
+    openChat();
+  });
+
+  searchInput.addEventListener("focus", openChat);
+  chatClose.addEventListener("click", closeChat);
+
+  function addMessage(text, from = "ai") {
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble " + (from === "user" ? "user" : "ai");
+    bubble.innerHTML = text;
+    chatMessages.appendChild(bubble);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function handleUserMessage(msg) {
+    if (!msg.trim()) return;
+    addMessage(msg, "user");
+    chatInput.value = "";
+
+    setTimeout(() => {
+      if (msg.toLowerCase().includes("tjenare bosse")) {
         addMessage(
-          "🎙 <b>Röstdemo</b>: här skulle vi lyssna på dig via Web Speech API eller liknande och omvandla tal till text."
+          "Godmorgon! Ja, <b>LB14 i Botkyrkagymnasiet strular</b> – högtemperaturlarm har löst flera gånger.<br><br>Vill du att jag analyserar det?"
         );
-      });
-    </script>
+      } else {
+        addMessage("Detta är demo av AI Analys 1.0.");
+      }
+    }, 500);
+  }
+
+  chatSend.addEventListener("click", () =>
+    handleUserMessage(chatInput.value)
+  );
+
+  chatInput.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleUserMessage(chatInput.value);
+    }
+  });
+
+  micButton.addEventListener("click", e => {
+    e.stopPropagation();
+    openChat();
+    addMessage("🎙 Röstdemo: här skulle röst-till-text aktiveras.");
+  });
+</script>
   </body>
 </html>
